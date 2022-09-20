@@ -1,24 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import "./App.css";
+import HomePageView from "./components/HomePageView";
+import LoginPageView from "./components/LoginPageView";
+import OrderPageView from "./components/OrderPageView";
+import ProductPageView from "./components/ProductPageView";
+
+export const userContext = createContext();
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  const productColName = [
+    "Product ID",
+    "Name",
+    "Category",
+    "Arrival Date",
+    "In Stock (Qty)",
+    "Price",
+  ];
+  const orderColName = [
+    "Order ID",
+    "Customer Name",
+    "Customer Contact",
+    "Order Status",
+    "Product Name",
+    "Total (Tk)",
+  ];
+  const [searchItem, setSearchItem] = useState("");
+  const [authorized, setAuthorized] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <userContext.Provider
+      value={{
+        isLogin,
+        setIsLogin,
+        productColName,
+        orderColName,
+        searchItem,
+        setSearchItem,
+        authorized,
+        setAuthorized,
+      }}
+    >
+      <div className="App">
+        <header></header>
+        <body className="App-body">
+          <Router>
+            {/* <Navbar /> */}
+            <Routes>
+              <Route exact path="" element={<LoginPageView />} />
+              <Route exact path="/home" element={<HomePageView />} />
+              <Route exact path="/products" element={<ProductPageView />} />
+              <Route exact path="/orders" element={<OrderPageView />} />
+              <Route exact path="/login" element={<LoginPageView />} />
+            </Routes>
+          </Router>
+        </body>
+      </div>
+    </userContext.Provider>
   );
 }
 
