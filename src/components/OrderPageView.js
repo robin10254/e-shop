@@ -1,39 +1,58 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { userContext } from "../App";
+import Navbar from "./Navbar";
+import OrderEditDeleteView from "./OrderEditDeleteView";
 
 const OrderPageView = () => {
-  const { searchItem, setSearchItem, orderColName } = useContext(userContext);
+  const { authorized, searchItem, setSearchItem, orderColName, ordersList } =
+    useContext(userContext);
+  const navigate = useNavigate();
+
+  if (authorized === false) {
+    return navigate("/login");
+  }
+
+  const onClickHandler = () => {
+    return navigate("/add/order");
+  };
 
   return (
     <div>
+      <Navbar />
       <div className="productPage" style={{ marginTop: "5rem" }}>
         <input
           type="text"
-          placeholder="🔍 Search Orders ..."
+          placeholder="🔍 Search Products ..."
           className="search-input"
+          style={{ width: "40rem" }}
           onChange={(e) => {
             setSearchItem(e.target.value);
           }}
         />
-        <button className="btn">ADD</button>
+        <button className="btn" onClick={onClickHandler}>
+          Add
+        </button>
       </div>
-      <div className="productPage">
+      <div className="tableView">
         <table cellSpacing="0" id="customers">
           <thead>
             <tr>
               {orderColName.map((obj, index) => {
-                // setIsPrinted(false);
                 return <th key={index}>{obj}</th>;
               })}
+              <th>Buttons</th>
             </tr>
           </thead>
-          {/* {orderList
+          {ordersList
             .filter((item) => {
               if (searchItem === "") {
                 return item;
               } else if (
-                item.firstName.toLowerCase().includes(searchItem.toLowerCase())
+                item.customerName
+                  .toLowerCase()
+                  .includes(searchItem.toLowerCase())
               ) {
                 return item;
               }
@@ -46,11 +65,13 @@ const OrderPageView = () => {
                     {Object.values(item).map((obj, index) => {
                       return <td key={index}>{obj}</td>;
                     })}
+                    <td>
+                      <OrderEditDeleteView item={item} />
+                    </td>
                   </tr>
-                  ;
                 </tbody>
               );
-            })} */}
+            })}
         </table>
       </div>
     </div>

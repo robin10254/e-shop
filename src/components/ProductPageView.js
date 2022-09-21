@@ -1,12 +1,31 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { userContext } from "../App";
+import AddProductEditDeleteView from "./AddProductEditDeleteView";
+import Navbar from "./Navbar";
 
 const ProductPageView = () => {
-  const { searchItem, setSearchItem, productColName } = useContext(userContext);
+  const {
+    authorized,
+    searchItem,
+    setSearchItem,
+    productColName,
+    productsList,
+  } = useContext(userContext);
+  const navigate = useNavigate();
+
+  if (authorized === false) {
+    return navigate("/login");
+  }
+
+  const onClickHandler = () => {
+    return navigate("/add/product");
+  };
 
   return (
     <div>
+      <Navbar />
       <div className="productPage" style={{ marginTop: "5rem" }}>
         <input
           type="text"
@@ -17,24 +36,26 @@ const ProductPageView = () => {
             setSearchItem(e.target.value);
           }}
         />
-        <button className="btn">Add</button>
+        <button className="btn" onClick={onClickHandler}>
+          Add
+        </button>
       </div>
-      <div className="productPage">
+      <div className="tableView">
         <table cellSpacing="0" id="customers">
           <thead>
             <tr>
               {productColName.map((obj, index) => {
-                // setIsPrinted(false);
                 return <th key={index}>{obj}</th>;
               })}
+              <th>Buttons</th>
             </tr>
           </thead>
-          {/* {productList
+          {productsList
             .filter((item) => {
               if (searchItem === "") {
                 return item;
               } else if (
-                item.firstName.toLowerCase().includes(searchItem.toLowerCase())
+                item.name.toLowerCase().includes(searchItem.toLowerCase())
               ) {
                 return item;
               }
@@ -47,11 +68,13 @@ const ProductPageView = () => {
                     {Object.values(item).map((obj, index) => {
                       return <td key={index}>{obj}</td>;
                     })}
+                    <td>
+                      <AddProductEditDeleteView item={item} />
+                    </td>
                   </tr>
-                  ;
                 </tbody>
               );
-            })} */}
+            })}
         </table>
       </div>
     </div>

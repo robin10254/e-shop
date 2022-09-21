@@ -11,7 +11,7 @@
   position: relative;
   background-color: var(--dark-mode1);
   color: var(--font-color);
-  height: 60vmax;
+  height: 100vmax;
   width: auto;
   display: flex;
   flex-direction: column;
@@ -36,6 +36,7 @@
   color: var(--font-color) !important;
   border: 1px solid var(--border-color) !important;
   border-radius: 0.2rem;
+  cursor: pointer;
   transition-duration: 300ms;
 }
 
@@ -72,8 +73,8 @@ a:-webkit-any-link:hover {
   background-color: var(--dark-mode2);
   display: flex;
   flex-direction: column;
-  height: 50%;
-  width: 80%;
+  height: 80%;
+  width: 90%;
 }
 
 .productPage {
@@ -90,7 +91,7 @@ a:-webkit-any-link:hover {
 }
 
 .loginPage {
-  margin: 2rem 3rem;
+  margin: 2rem 16rem;
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
   padding-left: 2rem;
@@ -99,8 +100,8 @@ a:-webkit-any-link:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50%;
-  width: 80%;
+  height: 40%;
+  width: 60%;
 }
 
 .loginLogo {
@@ -112,6 +113,7 @@ a:-webkit-any-link:hover {
   border-radius: 0.2rem;
   padding: 0.5rem;
   font-size: 2rem;
+  cursor: pointer;
 }
 
 .loginInput {
@@ -128,10 +130,11 @@ a:-webkit-any-link:hover {
   border: 1px solid var(--border-color);
   border-radius: 0.3rem;
   margin: 1rem 1rem;
-  height: 3rem;
-  width: 68% !important;
+  height: 2.5rem;
+  width: 69% !important;
   cursor: pointer;
 }
+
 .login-btn:hover {
   background-color: rgb(64, 64, 255);
   color: var(--font-color);
@@ -155,14 +158,60 @@ a:-webkit-any-link:hover {
   width: 10%;
   cursor: pointer;
 }
+
 .btn:hover {
   background-color: rgb(206, 203, 203);
+}
+
+.addProduct {
+  margin: 2rem 15rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 2rem 2rem;
+  background-color: var(--dark-mode2);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3rem;
+  height: 40%;
+  width: 55%;
+}
+
+.addProductDiv {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 1rem;
+}
+
+.addProductInput {
+  padding: 0 1rem;
+  font-size: 1rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+}
+
+.addProduct button {
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  border-radius: 0.3rem;
+  margin: 1.5rem 2rem;
+  height: 2rem;
+  width: 40% !important;
+  cursor: pointer;
+}
+
+.addProduct button:hover {
+  background-color: rgb(64, 64, 255);
+  color: var(--font-color);
+  transition-duration: 300ms;
 }
 
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 95%;
+  width: 80%;
+  height: 200%;
+  margin: 1rem 5rem;
 }
 
 #customers td,
@@ -174,12 +223,9 @@ a:-webkit-any-link:hover {
 #customers tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-#customers tr:nth-child(odd) {
-  background-color: #c0c0c0;
-}
 
 #customers tr:hover {
-  background-color: #ddd;
+  background-color: var(--dark-mode2);
 }
 
 #customers th {
@@ -188,6 +234,20 @@ a:-webkit-any-link:hover {
   text-align: left;
   background-color: var(--table-head);
   color: var(--font-color);
+}
+
+.editButton {
+  color: greenyellow;
+  background-color: transparent;
+  border: 2px solid greenyellow;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+.deleteButton {
+  color: red;
+  background-color: transparent;
+  border: 2px solid red;
+  cursor: pointer;
 }
 
 @keyframes App-logo-spin {
