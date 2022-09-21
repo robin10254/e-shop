@@ -22,7 +22,7 @@ const AddProductEditDeleteView = ({ item }) => {
     setProduct({ ...item, inStock: inStock });
     setProduct({ ...item, price: price });
 
-    return navigate("/edit/product/:productId");
+    return navigate("/edit/product");
   };
 
   const removeItem = () => {

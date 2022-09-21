@@ -5,6 +5,7 @@ import { userContext } from "../App";
 
 const AddProductView = () => {
   const {
+    authorized,
     setProduct,
     productsList,
     setProductsList,
@@ -18,6 +19,10 @@ const AddProductView = () => {
   let { product } = useContext(userContext);
   const navigate = useNavigate();
   const { productId, name, category, arrivalDate, inStock, price } = product;
+
+  if (authorized === false) {
+    return navigate("/login");
+  }
 
   const onChangeHandler = (e) => {
     const value = e.target.value;
@@ -56,11 +61,9 @@ const AddProductView = () => {
       setEditId(null);
       setIsEditing(false);
     } else {
-      alert("add");
       setCountProductId(countProductId + 1);
       product = { ...product, productId: countProductId };
 
-      alert(product.productId);
       setProductsList([...productsList, product]);
       alert("Your information saved.");
       setProduct({

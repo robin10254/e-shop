@@ -115,12 +115,9 @@ function App() {
               <Route path="/orders" element={<OrderPageView />} />
               <Route path="/login" element={<LoginPageView />} />
               <Route path="/add/product" element={<AddProductView />} />
-              <Route
-                path="/edit/product/:productId"
-                element={<AddProductView />}
-              />
+              <Route path="/edit/product/" element={<AddProductView />} />
               <Route path="/add/order" element={<AddOrderView />} />
-              <Route path="/edit/order/:orderId" element={<AddOrderView />} />
+              <Route path="/edit/order/" element={<AddOrderView />} />
             </Routes>
           </Router>
         </div>

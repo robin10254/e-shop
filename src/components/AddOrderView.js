@@ -5,6 +5,7 @@ import { userContext } from "../App";
 
 const AddOrderView = () => {
   const {
+    authorized,
     setOrder,
     ordersList,
     setOrdersList,
@@ -18,6 +19,10 @@ const AddOrderView = () => {
   let { order } = useContext(userContext);
   const navigate = useNavigate();
   const { orderId, customerName, contact, status, productName, total } = order;
+
+  if (authorized === false) {
+    return navigate("/login");
+  }
 
   const onChangeHandler = (e) => {
     const value = e.target.value;
