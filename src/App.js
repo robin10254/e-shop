@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import "./App.css";
@@ -11,25 +11,7 @@ import ProductPageView from "./components/ProductPageView";
 
 export const userContext = createContext();
 
-const getLocalStorage = () => {
-  let productsList = localStorage.getItem("productsList");
-  if (productsList) {
-    return (productsList = JSON.parse(productsList));
-  } else {
-    return [];
-  }
-};
-const getOrderLocalStorage = () => {
-  let ordersList = localStorage.getItem("ordersList");
-  if (ordersList) {
-    return (ordersList = JSON.parse(ordersList));
-  } else {
-    return [];
-  }
-};
-
 function App() {
-  const [productsList, setProductsList] = useState(getLocalStorage());
   let [product, setProduct] = useState({
     productId: 0,
     name: "",
@@ -46,7 +28,7 @@ function App() {
     "In Stock (Qty)",
     "Price",
   ];
-  const [ordersList, setOrdersList] = useState(getOrderLocalStorage());
+  const [countProductId, setCountProductId] = useState(1);
   let [order, setOrder] = useState({
     orderId: 0,
     customerName: "",
@@ -63,46 +45,30 @@ function App() {
     "Product Name",
     "Total (Tk)",
   ];
-  const [searchItem, setSearchItem] = useState("");
-  const [authorized, setAuthorized] = useState(false);
-  const [countProductId, setCountProductId] = useState(1);
   const [countOrderId, setCountOrderId] = useState(1);
+  const [searchItem, setSearchItem] = useState("");
+  const [authorized, setAuthorized] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [editId, setEditId] = useState(null);
-
-  useEffect(() => {
-    localStorage.setItem("productsList", JSON.stringify(productsList));
-  }, [productsList]);
-
-  useEffect(() => {
-    localStorage.setItem("ordersList", JSON.stringify(ordersList));
-  }, [ordersList]);
 
   return (
     <userContext.Provider
       value={{
         productColName,
-        orderColName,
-        searchItem,
-        setSearchItem,
-        authorized,
-        setAuthorized,
-        productsList,
-        setProductsList,
         product,
         setProduct,
         countProductId,
         setCountProductId,
-        ordersList,
-        setOrdersList,
+        orderColName,
         order,
         setOrder,
         countOrderId,
         setCountOrderId,
         isEditing,
         setIsEditing,
-        editId,
-        setEditId,
+        searchItem,
+        setSearchItem,
+        authorized,
+        setAuthorized,
       }}
     >
       <div className="App">

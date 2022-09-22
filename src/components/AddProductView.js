@@ -1,24 +1,23 @@
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { addProduct, editProduct } from "../action";
 import { userContext } from "../App";
 
 const AddProductView = () => {
   const {
     authorized,
     setProduct,
-    productsList,
-    setProductsList,
     countProductId,
     setCountProductId,
     isEditing,
     setIsEditing,
-    editId,
-    setEditId,
   } = useContext(userContext);
   let { product } = useContext(userContext);
   const navigate = useNavigate();
-  const { productId, name, category, arrivalDate, inStock, price } = product;
+  const dispatch = useDispatch();
+  const { name, arrivalDate, inStock, price } = product;
 
   if (authorized === false) {
     return navigate("/login");
@@ -32,39 +31,13 @@ const AddProductView = () => {
   };
   const onSaveHandler = () => {
     if (isEditing === true) {
-      //   alert(editId);
-      setProductsList(
-        productsList.map((item) => {
-          if (item.productId === editId) {
-            item = {
-              ...item,
-              productId: productId,
-              name: name,
-              category: category,
-              arrivalDate: arrivalDate,
-              inStock: inStock,
-              price: price,
-            };
-            setProductsList([...productsList, item]);
-            alert("Your information updated.");
-            setProduct({
-              name: "",
-              category: "",
-              arrivalDate: "",
-              inStock: 0,
-              price: 0,
-            });
-          }
-          return item;
-        })
-      );
-      setEditId(null);
+      dispatch(editProduct(product));
+      alert("Your information updated.");
       setIsEditing(false);
     } else {
       setCountProductId(countProductId + 1);
       product = { ...product, productId: countProductId };
-
-      setProductsList([...productsList, product]);
+      dispatch(addProduct(product));
       alert("Your information saved.");
       setProduct({
         name: "",

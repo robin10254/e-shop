@@ -1,24 +1,23 @@
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { addOrder, editOrder } from "../action";
 import { userContext } from "../App";
 
 const AddOrderView = () => {
   const {
     authorized,
     setOrder,
-    ordersList,
-    setOrdersList,
-    countOrderId,
-    setCountOrderId,
     isEditing,
     setIsEditing,
-    editId,
-    setEditId,
+    countOrderId,
+    setCountOrderId,
   } = useContext(userContext);
   let { order } = useContext(userContext);
   const navigate = useNavigate();
-  const { orderId, customerName, contact, status, productName, total } = order;
+  const dispatch = useDispatch();
+  const { customerName, contact, productName, total } = order;
 
   if (authorized === false) {
     return navigate("/login");
@@ -31,38 +30,15 @@ const AddOrderView = () => {
     setOrder({ ...order, [name]: value });
   };
   const onSaveHandler = () => {
-    if (isEditing) {
-      setOrdersList(
-        ordersList.map((item) => {
-          if (item.orderId === editId) {
-            item = {
-              ...item,
-              orderId: orderId,
-              customerName: customerName,
-              contact: contact,
-              status: status,
-              productName: productName,
-              total: total,
-            };
-            setOrdersList([...ordersList, item]);
-            alert("Your information updated.");
-            setOrder({
-              customerName: "",
-              contact: "",
-              status: "",
-              productName: "",
-              total: 0,
-            });
-          }
-          return item;
-        })
-      );
-      setEditId(null);
+    if (isEditing === true) {
+      dispatch(editOrder(order));
+      alert("Your information updated.");
       setIsEditing(false);
     } else {
       setCountOrderId(countOrderId + 1);
       order = { ...order, orderId: countOrderId };
-      setOrdersList([...ordersList, order]);
+      dispatch(addOrder(order));
+
       alert("Your information saved.");
       setOrder({
         customerName: "",

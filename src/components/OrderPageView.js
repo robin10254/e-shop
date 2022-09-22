@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { userContext } from "../App";
@@ -6,9 +7,10 @@ import Navbar from "./Navbar";
 import OrderEditDeleteView from "./OrderEditDeleteView";
 
 const OrderPageView = () => {
-  const { authorized, searchItem, setSearchItem, orderColName, ordersList } =
+  const { authorized, searchItem, setSearchItem, orderColName } =
     useContext(userContext);
   const navigate = useNavigate();
+  const ordersList = useSelector((state) => state.orderReducer.ordersList);
 
   if (authorized === false) {
     return navigate("/login");
@@ -62,9 +64,12 @@ const OrderPageView = () => {
               return (
                 <tbody>
                   <tr>
-                    {Object.values(item).map((obj, index) => {
-                      return <td key={index}>{obj}</td>;
-                    })}
+                    <td key={0}>{item.orderId}</td>
+                    <td key={1}>{item.customerName}</td>
+                    <td key={2}>{item.contact}</td>
+                    <td key={3}>{item.status}</td>
+                    <td key={4}>{item.productName}</td>
+                    <td key={5}>{item.total}</td>
                     <td>
                       <OrderEditDeleteView item={item} />
                     </td>

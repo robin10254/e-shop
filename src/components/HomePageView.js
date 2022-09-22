@@ -1,12 +1,16 @@
 import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 import { userContext } from "../App";
 import Navbar from "./Navbar";
 
 const HomePageView = () => {
-  const { authorized, productColName, orderColName, productsList, ordersList } =
-    useContext(userContext);
+  const { authorized, productColName, orderColName } = useContext(userContext);
+  const productsList = useSelector(
+    (state) => state.productReducer.productsList
+  );
+  const ordersList = useSelector((state) => state.orderReducer.ordersList);
 
   if (authorized === false) {
     return <Navigate to="/login" />;
@@ -30,9 +34,12 @@ const HomePageView = () => {
             {productsList.map((item) => {
               return (
                 <tr>
-                  {Object.values(item).map((obj, index) => {
-                    return <td key={index}>{obj}</td>;
-                  })}
+                  <td key={0}>{item.productId}</td>
+                  <td key={1}>{item.name}</td>
+                  <td key={2}>{item.category}</td>
+                  <td key={3}>{item.arrivalDate}</td>
+                  <td key={4}>{item.inStock}</td>
+                  <td key={5}>{item.price}</td>
                 </tr>
               );
             })}
@@ -45,7 +52,6 @@ const HomePageView = () => {
           <thead>
             <tr>
               {orderColName.map((obj, index) => {
-                // setIsPrinted(false);
                 return <th key={index}>{obj}</th>;
               })}
             </tr>
@@ -54,9 +60,12 @@ const HomePageView = () => {
             {ordersList.map((item) => {
               return (
                 <tr>
-                  {Object.values(item).map((obj, index) => {
-                    return <td key={index}>{obj}</td>;
-                  })}
+                  <td key={0}>{item.orderId}</td>
+                  <td key={1}>{item.customerName}</td>
+                  <td key={2}>{item.contact}</td>
+                  <td key={3}>{item.status}</td>
+                  <td key={4}>{item.productName}</td>
+                  <td key={5}>{item.total}</td>
                 </tr>
               );
             })}
