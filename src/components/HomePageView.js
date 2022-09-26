@@ -1,20 +1,34 @@
-import { useContext } from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 
-import { userContext } from "../App";
 import Navbar from "./Navbar";
 
 const HomePageView = () => {
-  const { authorized, productColName, orderColName } = useContext(userContext);
   const productsList = useSelector(
     (state) => state.productReducer.productsList
   );
   const ordersList = useSelector((state) => state.orderReducer.ordersList);
 
-  if (authorized === false) {
-    return <Navigate to="/login" />;
-  }
+  //local state
+  const productColName = [
+    "Product ID",
+    "Product Name",
+    "Category",
+    "Arrival Date",
+    "In Stock (Qty)",
+    "Price",
+  ];
+  const orderColName = [
+    "Order ID",
+    "Customer Name",
+    "Customer Contact",
+    "Order Status",
+    "Product Name",
+    "Total (Tk)",
+  ];
+
+  // if (authorized === false) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return (
     <div>
@@ -31,9 +45,9 @@ const HomePageView = () => {
             </tr>
           </thead>
           <tbody>
-            {productsList.map((item) => {
+            {productsList.map((item, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td key={0}>{item.productId}</td>
                   <td key={1}>{item.name}</td>
                   <td key={2}>{item.category}</td>
@@ -57,9 +71,9 @@ const HomePageView = () => {
             </tr>
           </thead>
           <tbody>
-            {ordersList.map((item) => {
+            {ordersList.map((item, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td key={0}>{item.orderId}</td>
                   <td key={1}>{item.customerName}</td>
                   <td key={2}>{item.contact}</td>

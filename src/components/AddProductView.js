@@ -1,69 +1,65 @@
-import { useContext } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { addProduct, editProduct } from "../action";
-import { userContext } from "../App";
+import { addProduct, editProduct } from "../reducer/productFunctionReducer";
+import { setProduct } from "../reducer/productStateReducer";
 
 const AddProductView = () => {
-  const {
-    authorized,
-    setProduct,
-    countProductId,
-    setCountProductId,
-    isEditing,
-    setIsEditing,
-  } = useContext(userContext);
-  let { product } = useContext(userContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { name, arrivalDate, inStock, price } = product;
+  const location = useLocation();
+  const productsList = useSelector(
+    (state) => state.productReducer.productsList
+  );
+  const product = useSelector((state) => state.productStateReducer.product);
+  const countId = useSelector((state) => state.productReducer.countId);
 
-  if (authorized === false) {
-    return navigate("/login");
-  }
+  //local state
+  const { name, arrivalDate, inStock, price } = product;
 
   const onChangeHandler = (e) => {
     const value = e.target.value;
     const name = e.target.name;
 
-    setProduct({ ...product, [name]: value });
+    dispatch(setProduct({ ...product, [name]: value }));
   };
   const onSaveHandler = () => {
-    if (isEditing === true) {
-      dispatch(editProduct(product));
+    if (location.pathname === "/edit/product") {
+      dispatch(editProduct(productsList, product));
       alert("Your information updated.");
-      setIsEditing(false);
     } else {
-      setCountProductId(countProductId + 1);
-      product = { ...product, productId: countProductId };
-      dispatch(addProduct(product));
+      dispatch(addProduct(product, countId));
       alert("Your information saved.");
+    }
+    dispatch(
       setProduct({
         name: "",
         category: "",
         arrivalDate: "",
         inStock: 0,
         price: 0,
-      });
-    }
+      })
+    );
+    return navigate(-1);
   };
   const onCancelHandler = () => {
-    setProduct({
-      name: "",
-      category: "",
-      arrivalDate: "",
-      inStock: 0,
-      price: 0,
-    });
-    return navigate("/products");
+    dispatch(
+      setProduct({
+        name: "",
+        category: "",
+        arrivalDate: "",
+        inStock: 0,
+        price: 0,
+      })
+    );
+    return navigate(-1);
   };
 
   return (
     <div className="addProduct">
       <h2 style={{ textAlign: "center" }}>Product Form</h2>
       <div className="addProductDiv">
-        <label for="name" className="">
+        <label htmlFor="name" className="">
           Product Name
         </label>
         <input
@@ -78,7 +74,7 @@ const AddProductView = () => {
         />
       </div>
       <div className="addProductDiv">
-        <label for="category">Product Category</label>
+        <label htmlFor="category">Product Category</label>
         <select
           className="addProductInput"
           id="category"
@@ -93,7 +89,7 @@ const AddProductView = () => {
         </select>
       </div>
       <div className="addProductDiv">
-        <label for="arrivalDate" className="">
+        <label htmlFor="arrivalDate" className="">
           Arrival Date
         </label>
         <input
@@ -108,7 +104,7 @@ const AddProductView = () => {
         />
       </div>
       <div className="addProductDiv">
-        <label for="inStock" className="">
+        <label htmlFor="inStock" className="">
           In Stock (Qty)
         </label>
         <input
@@ -123,7 +119,7 @@ const AddProductView = () => {
         />
       </div>
       <div className="addProductDiv">
-        <label for="price" className="">
+        <label htmlFor="price" className="">
           Price
         </label>
         <input

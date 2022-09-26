@@ -1,20 +1,42 @@
-import { useContext } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { userContext } from "../App";
+import { deleteOrder } from "../reducer/orderFunctionReducer";
+import { setOrder } from "../reducer/orderStateReducer";
 import Navbar from "./Navbar";
-import OrderEditDeleteView from "./OrderEditDeleteView";
 
 const OrderPageView = () => {
-  const { authorized, searchItem, setSearchItem, orderColName } =
-    useContext(userContext);
+  //Hooks
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const ordersList = useSelector((state) => state.orderReducer.ordersList);
 
-  if (authorized === false) {
-    return navigate("/login");
-  }
+  const { setIsEditing } = useContext(userContext);
+  const orderColName = [
+    "Order ID",
+    "Customer Name",
+    "Customer Contact",
+    "Order Status",
+    "Product Name",
+    "Total (Tk)",
+    "Buttons",
+  ];
+  const [searchItem, setSearchItem] = useState("");
+
+  //Functions
+  const editItem = (item) => {
+    setIsEditing(true);
+
+    dispatch(setOrder(item));
+    return navigate("/edit/order");
+  };
+
+  const removeItem = (orderId) => {
+    dispatch(deleteOrder(ordersList, orderId));
+  };
 
   const onClickHandler = () => {
     return navigate("/add/order");
@@ -44,7 +66,6 @@ const OrderPageView = () => {
               {orderColName.map((obj, index) => {
                 return <th key={index}>{obj}</th>;
               })}
-              <th>Buttons</th>
             </tr>
           </thead>
           {ordersList
@@ -60,9 +81,9 @@ const OrderPageView = () => {
               }
               return "";
             })
-            .map((item) => {
+            .map((item, index) => {
               return (
-                <tbody>
+                <tbody key={index}>
                   <tr>
                     <td key={0}>{item.orderId}</td>
                     <td key={1}>{item.customerName}</td>
@@ -70,8 +91,23 @@ const OrderPageView = () => {
                     <td key={3}>{item.status}</td>
                     <td key={4}>{item.productName}</td>
                     <td key={5}>{item.total}</td>
-                    <td>
-                      <OrderEditDeleteView item={item} />
+                    <td key={6}>
+                      <div style={{ flexDirection: "row" }}>
+                        <button
+                          type="button"
+                          className="editButton"
+                          onClick={() => editItem(item)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          type="button"
+                          className="deleteButton"
+                          onClick={() => removeItem(item.orderId)}
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
