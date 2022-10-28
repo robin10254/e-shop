@@ -163,6 +163,14 @@ a:-webkit-any-link:hover {
   background-color: rgb(206, 203, 203);
 }
 
+.btnLogout {
+  background-color: transparent;
+  border: transparent;
+  color: var(--font-color);
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
 .addProduct {
   margin: 2rem 15rem;
   border: 1px solid var(--border-color);

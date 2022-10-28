@@ -19,10 +19,8 @@ export const editList = (list, id, object) => {
 
 export const validCredentials = (updatedCredentials) => {
   if (updatedCredentials.username === "") {
-    alert("Invalid Username");
     return false;
   } else if (updatedCredentials.password === "") {
-    alert("Invalid Password");
     return false;
   }
   return true;

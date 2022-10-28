@@ -1,9 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { userContext } from "../App";
 import { deleteOrder } from "../reducer/orderFunctionReducer";
 import { setOrder } from "../reducer/orderStateReducer";
 import Navbar from "./Navbar";
@@ -14,7 +13,6 @@ const OrderPageView = () => {
   const dispatch = useDispatch();
   const ordersList = useSelector((state) => state.orderReducer.ordersList);
 
-  const { setIsEditing } = useContext(userContext);
   const orderColName = [
     "Order ID",
     "Customer Name",
@@ -28,8 +26,6 @@ const OrderPageView = () => {
 
   //Functions
   const editItem = (item) => {
-    setIsEditing(true);
-
     dispatch(setOrder(item));
     return navigate("/edit/order");
   };

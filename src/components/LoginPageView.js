@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { setAuthorized } from "../reducer/authReducer";
 
 const LoginPageView = () => {
-  const dispatch = useDispatch();
+  //Hooks
+  // const outlet = useOutlet();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuthorized = useSelector((state) => state.authReducer.isAuthorized);
   let [credentials, setCredentials] = useState({
     username: "",
     password: "",
-  }); //import from redux
-  const isAuthorized = useSelector((state) => state.authReducer.isAuthorized);
+  });
 
+
+  useEffect(()=>{
+    console.log(isAuthorized);
+    
+    return isAuthorized ? navigate("/home"):navigate("/login");;
+  }, [isAuthorized, navigate])
+  //Functions
   const onChangeHandler = (e) => {
     const value = e.target.value;
     const name = e.target.name;
@@ -20,12 +29,8 @@ const LoginPageView = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const onLoginButtonHandler = () => {
-    dispatch(setAuthorized(credentials, false));
-
-    if (isAuthorized) alert("Login successfully");
-    return isAuthorized ? navigate("/home") : navigate("");
-    // return isAuthorized ? <Outlet /> : <Navigate to="/login" />;
+  const OnLoginButtonHandler = () => {
+    dispatch(setAuthorized(credentials));
   };
 
   return (
@@ -49,7 +54,7 @@ const LoginPageView = () => {
         value={credentials.password}
         onChange={onChangeHandler}
       ></input>
-      <button className="login-btn" onClick={onLoginButtonHandler}>
+      <button className="login-btn" onClick={OnLoginButtonHandler}>
         Login
       </button>
     </div>

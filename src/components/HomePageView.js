@@ -26,10 +26,6 @@ const HomePageView = () => {
     "Total (Tk)",
   ];
 
-  // if (authorized === false) {
-  //   return <Navigate to="/login" />;
-  // }
-
   return (
     <div>
       <Navbar />
