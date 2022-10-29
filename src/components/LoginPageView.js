@@ -15,12 +15,15 @@ const LoginPageView = () => {
     password: "",
   });
 
-
   useEffect(()=>{
-    console.log(isAuthorized);
-    
-    return isAuthorized ? navigate("/home"):navigate("/login");;
+    if( isAuthorized ){
+      alert('Login Successfully');
+      return navigate("/home")
+    } else {
+      return navigate("/login")
+    }
   }, [isAuthorized, navigate])
+
   //Functions
   const onChangeHandler = (e) => {
     const value = e.target.value;
